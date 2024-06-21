@@ -1,16 +1,23 @@
 package com.hxj0x.sqlx.core;
 
-import java.util.function.Function;
+import net.sf.jsqlparser.JSQLParserException;
+
 import java.util.function.UnaryOperator;
+
+// import static com.hxj0x.sqlx.core.SqlxMain.MyUnaryOperator.max;
 
 public class SqlxMain {
 
     public static class SqlX {
-        public static FormX select(UnaryOperator<SelectX> s) {
+        public static FormX select(MyUnaryOperator<SelectX> s) {
             return new FormX();
         }
 
+        public static SelectX select() {
+            return new SelectX();
+        }
     }
+
 
     public static class SelectX {
         public SelectX raw(String raw) {
@@ -28,14 +35,25 @@ public class SqlxMain {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JSQLParserException {
+        // SqlX.select(s -> s
+        //                 .raw(MyUnaryOperator.max("id"))
+        //                 .raw("name")
+        //                 .raw("age"))
+        //         .form(f -> f
+        //                 .raw("user"));
+        //
+        // SqlX.select(s -> s.raw("distinct id")).form(f -> f.raw("user"));
+        SqlX.select()
+                .raw("id")
+                .raw("id")
+                .raw("id");
+
         SqlX.select(s -> s
-                        .raw("id")
+                        .raw(MyUnaryOperator.max("id"))
                         .raw("name")
                         .raw("age"))
                 .form(f -> f
                         .raw("user"));
-
-        SqlX.select(s -> s.raw("distinct id")).form(f -> f.raw("user"));
     }
 }
